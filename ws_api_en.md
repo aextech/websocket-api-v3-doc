@@ -1,14 +1,16 @@
 AEX Websocket API Protocol Documentation (V3)
 ---
 
-# API Request URL
+### API Request URL
+
 ```
 wss://api.aex.zone/wsv3
 Currently the Websocket API is only available for the api.aex.zone domain name.
 The server will respond if the connection is established successfully   {"cmd":0}  
 ```
 
-# Websocket connection process
+### Websocket connection process
+
 ```
 With the same account, only one connection can survive at the same time. The connection with successful authentication will disconnect other connections. In the case of unauthentication, the same IP allows more connections.
 such as:
@@ -20,24 +22,26 @@ such as:
 ```
 
 # Table of Contents
-+ [Heartbeat message](#Heartbeat message)
-+ [Request instructions](#Request instructions)
-+ [Request example](#Request example)
-+ [Protocol command word](#Protocol command word)
++ [Heartbeat message](#heartbeat-message)
++ [Request instructions](#request-instructions)
++ [Request example](#request-example)
++ [Protocol command word](#protocol-command-word)
 + [Error Code](#error-code)
 + [Protocol request/response structure (json)](#protocol-request-response-data-structure)
-   + [CMD: 1, Latest public transaction data](#cmd-1-Latest public transaction data)
-   + [CMD: 2, K line](#cmd-2-K line)
-   + [CMD: 3, Deep Disk](#cmd-3-Deep Disk)
-   + [CMD: 4, 24-hour market](#cmd-4-24-hour market)
-   + [CMD: 6, Streamline the 24-hour market](#cmd-6-Streamline the 24-hour market)
-   + [CMD: 99, Login](#cmd-99-Login)
-   + [CMD: 100, Individual order changes](#cmd-100-Individual order changes)
-   + [CMD: 101, Personal latest transaction](#cmd-101-Personal latest transaction)
+   + [CMD: 1, Latest public transaction data](#cmd-1-latest-public-transaction-data)
+   + [CMD: 2, K line](#cmd-2-k-line)
+   + [CMD: 3, Deep Disk](#cmd-3-deep-disk)
+   + [CMD: 4, 24-hour market](#cmd-4-24-hour-market)
+   + [CMD: 6, Streamline the 24-hour market](#cmd-6-streamline-the-24-hour-market)
+   + [CMD: 99, Login](#cmd-99-login)
+   + [CMD: 100, Individual order changes](#cmd-100-individual-order-changes)
+   + [CMD: 101, Personal latest transaction](#cmd-101-personal-latest-transaction)
 + [Link orders and trades through tags](#link-orders-and-trades-through-tags)
 + [Implementation of trading strategy](#implementation-of-trading-strategy)
 
-# Heartbeat message
+
+# heartbeat-message
+
 ```
 When a user's Websocket client is connected to AEX's Websocket server, a ping message is sent to AEX periodically (currently 20 seconds) :
 
@@ -52,7 +56,8 @@ When the AEX server does not receive a 'ping' message twice in a row, the server
 When the user's Websocket client does not receive 'pong' messages twice in a row, try to disconnect and reconnect.
 ```
 
-# Request instructions
+# request-instructions
+
 ```
 Instruction format
 
@@ -74,7 +79,8 @@ The first digit of code is parity, even number means success, odd number means f
 
 ```
 
-# Request example
+# request-example
+
 ```
 subscription
 
@@ -93,6 +99,7 @@ log out
 ```
 
 # the data shows
+
 ```
 Divided into personal data, public data; personal data requires login authentication.
 The request parameter symbol supports multiple subscriptions, connected by English commas.
@@ -102,7 +109,7 @@ Personal data includes: personal order changes, personal latest transactions.
 
 ```
 
-# Protocol command word
+# protocol-command-word
 
 |cmd|Description|
 |:----  |-----   |
@@ -116,7 +123,7 @@ Personal data includes: personal order changes, personal latest transactions.
 |101 | Personal latest transaction |
 
 
-# Error Code
+# error-code
  
 code | description
 ----- | ---------
@@ -130,9 +137,9 @@ code | description
 100008 |No access rights
 20000 | Success
 
-# Protocol request response data structure
+# protocol-request-response-data-structure
 
-# cmd-1-Latest public transaction data
+# cmd-1-Latest-public-transaction-data
 ```
 Description:
 no
@@ -192,7 +199,7 @@ trade.4 | int | Unique ID of transaction id
 
 
 
-# cmd-2-K line
+# cmd-2-k-line
 ```
 Description:
 Push the data of the last K line
@@ -267,7 +274,7 @@ c |string| The latest price or closing price
 
 
 
-# cmd-3-Deep Disk
+# cmd-3-deep-disk
 ```
 Description:
 no
@@ -336,7 +343,7 @@ buy(sell).0.0 |string| The quantity to buy (sell) a plate
 buy(sell).0.1 |string| The price of buying (selling) a plate
 
 
-# cmd-4-24-hour market
+# cmd-4-24-hour-market
 ```
 Description:
 no
@@ -398,7 +405,7 @@ b |string| buy a price
 s |string| Sell one price
 
 
-# cmd-6-Streamline the 24-hour market
+# cmd-6-streamline-the-24-hour-market
 
 ```
 {"cmd":6,"action":"sub","symbol":"btc_cnc"}
@@ -419,7 +426,7 @@ Push data normally (json)
   ```
 
 
-# cmd-99-Login
+# cmd-99-login
 
 Subscription format:
 ```
@@ -448,7 +455,7 @@ Normal response (json)
 ```
 
   
-# cmd-100-Individual order changes
+# cmd-100-individual-order-changes
 ```
 Description:
 no
@@ -506,11 +513,9 @@ z |string| remaining quantity
 x |int|Status 4-Order cancelled successfully 3-Order returned 2-Order successfully placed
 T |int|time
 
-#### Error response (error code)
-Refer to the response description and code meaning
-  
-  
-# cmd-101-Personal latest transaction
+
+
+# cmd-101-personal-latest-transaction
 ```
 Description:
 no
